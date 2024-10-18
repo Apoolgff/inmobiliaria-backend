@@ -1,4 +1,4 @@
-const { propiedadModel } = require('./models/propiedad.model.js');
+const { propiedadModel } = require('./models/propiedad.model');
 
 class PropiedadDaoMongo {
     constructor() {
@@ -41,7 +41,7 @@ class PropiedadDaoMongo {
 
     // Eliminar una propiedad según ID
     async delete(propiedadId) {
-        return await this.model.findByIdAndDelete(propiedadId);
+        return await this.model.findByIdAndDelete({_id:propiedadId});
     }
 }
 

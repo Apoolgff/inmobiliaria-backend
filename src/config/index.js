@@ -1,13 +1,7 @@
 const { connect } = require('mongoose')
 const dotenv = require('dotenv')
 
-const { program } = require("../utils/commander")
 
-const { mode } = program.opts()
-
-dotenv.config({
-  path: mode == 'production' ? './.env.production' : './.env.development'
-})
 
 exports.configObject = {
   PORT: process.env.PORT || 8080,
@@ -20,9 +14,8 @@ exports.configObject = {
 }
 
 exports.connectDB = async () => {
-    await connect(process.env.MONGO_URI)
+    await connect("mongodb+srv://LotesDeMar:Lotesdemar123456789@clusterinmobiliaria.oxvxu.mongodb.net/?retryWrites=true&w=majority&appName=ClusterInmobiliaria")
     console.log('Base de datos conectada')
   }
 
 
-exports.mode = mode;

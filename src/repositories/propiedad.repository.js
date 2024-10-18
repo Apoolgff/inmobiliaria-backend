@@ -1,6 +1,6 @@
 // propiedad.repository.js
 
-const { PropiedadDaoMongo } = require('../managers/propiedadManagerMongo');
+const PropiedadDaoMongo = require('../managers/propiedadManagerMongo');
 
 class PropiedadRepository {
     constructor() {

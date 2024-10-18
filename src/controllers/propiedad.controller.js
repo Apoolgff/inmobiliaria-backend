@@ -1,198 +1,147 @@
 // propiedad.controller.js
 
-const { PropiedadRepository } = require('../repositories/propiedad.repository');
+const { propiedadService } = require('../repositories/services');
 
-// Instanciar el repositorio de propiedades
-const propiedadRepository = new PropiedadRepository();
+class PropiedadController {
+    constructor() {
+        this.propiedadService = propiedadService;
+    }
 
-// Crear una nueva propiedad
-createPropiedad = async (req, res) => {
-    try {
-        // Extraemos todos los datos que necesitamos del body de la solicitud
+    // Obtener todas las propiedades
+    getPropiedades = async (req, res) => {
+        try {
+            const propiedades = await this.propiedadService.getPropiedades();
+            res.status(200).json(propiedades);
+        } catch (error) {
+            console.error('Error al obtener propiedades:', error);
+            res.status(500).json({ message: 'Error al obtener propiedades' });
+        }
+    };
+
+    // Obtener propiedades con límites
+    getPropiedadesLimited = async (req, res) => {
+        const { filter, options } = req.body; // Asegúrate de que el cliente envíe el cuerpo correctamente
+        try {
+            const propiedades = await this.propiedadService.getPropiedadesLimited({ filter, options });
+            res.status(200).json(propiedades);
+        } catch (error) {
+            console.error('Error al obtener propiedades limitadas:', error);
+            res.status(500).json({ message: 'Error al obtener propiedades limitadas' });
+        }
+    };
+
+    // Obtener una propiedad según un filtro
+    getPropiedadBy = async (req, res) => {
+        const filter = req.body; // O puedes usar req.params o req.query según tu necesidad
+        try {
+            const propiedad = await this.propiedadService.getPropiedadBy(filter);
+            if (propiedad) {
+                res.status(200).json(propiedad);
+            } else {
+                res.status(404).json({ message: 'Propiedad no encontrada' });
+            }
+        } catch (error) {
+            console.error('Error al obtener propiedad:', error);
+            res.status(500).json({ message: 'Error al obtener propiedad' });
+        }
+    };
+
+    // Obtener una propiedad por ID
+    getPropiedadById = async (req, res) => {
+        const { id } = req.params;
+        try {
+            const propiedad = await this.propiedadService.getPropiedadById(id);
+            if (propiedad) {
+                res.status(200).json(propiedad);
+            } else {
+                res.status(404).json({ message: 'Propiedad no encontrada' });
+            }
+        } catch (error) {
+            console.error('Error al obtener propiedad por ID:', error);
+            res.status(500).json({ message: 'Error al obtener propiedad por ID' });
+        }
+    };
+
+    // Crear una nueva propiedad
+    createPropiedad = async (req, res) => {
         const {
-            tipo, id, inmobiliaria, broker, enVenta, enAlquiler, titulo, descripcion,
-            ubicacion, caracteristicas, destacada, venta, alquiler, fotos, url
-        } = req.body;
-
-        // Validar datos del subesquema inmobiliaria
-        if (!inmobiliaria || typeof inmobiliaria !== 'object') {
-            return res.status(400).json({ message: "Datos de inmobiliaria son obligatorios y deben ser un objeto." });
-        }
-        const { nombre, codigo, email, direccion, telefono, celular, sucursal, logo } = inmobiliaria;
-        if (!nombre || !codigo || !email || !direccion) {
-            return res.status(400).json({ message: "Faltan campos en el subesquema inmobiliaria." });
-        }
-
-        // Validar datos del subesquema broker
-        if (!broker || typeof broker !== 'object') {
-            return res.status(400).json({ message: "Datos de broker son obligatorios y deben ser un objeto." });
-        }
-        const { id: brokerId, nombre: brokerNombre, telefono: brokerTelefono, email: brokerEmail, foto: brokerFoto } = broker;
-        if (!brokerId || !brokerNombre || !brokerTelefono || !brokerEmail) {
-            return res.status(400).json({ message: "Faltan campos en el subesquema broker." });
-        }
-
-        // Validar datos del subesquema ubicacion
-        if (!ubicacion || typeof ubicacion !== 'object') {
-            return res.status(400).json({ message: "Datos de ubicacion son obligatorios y deben ser un objeto." });
-        }
-        const { departamento, ciudad, barrio, distanciamarmetros, frentealmar, direccion: ubicacionDireccion, lat, lon } = ubicacion;
-        if (!departamento || !ciudad || !barrio) {
-            return res.status(400).json({ message: "Faltan campos en el subesquema ubicacion." });
-        }
-
-        // Validar datos del subesquema caracteristicas
-        if (!caracteristicas || typeof caracteristicas !== 'object') {
-            return res.status(400).json({ message: "Datos de caracteristicas son obligatorios y deben ser un objeto." });
-        }
-        // Puedes agregar más validaciones específicas según los requerimientos de cada campo
-
-        // Validar datos del subesquema venta
-        if (venta && typeof venta !== 'object') {
-            return res.status(400).json({ message: "Datos de venta deben ser un objeto si están presentes." });
-        }
-        // Similar validación para venta...
-
-        // Validar datos del subesquema alquiler
-        if (alquiler && typeof alquiler !== 'object') {
-            return res.status(400).json({ message: "Datos de alquiler deben ser un objeto si están presentes." });
-        }
-        // Similar validación para alquiler...
-
-        // Validar datos del subesquema fotos
-        if (fotos && !Array.isArray(fotos)) {
-            return res.status(400).json({ message: "Fotos deben ser un arreglo de objetos." });
-        }
-        // Validar cada foto si es necesario...
-
-        // Crear un objeto propiedad con todos los subesquemas
-        const propiedad = {
             tipo,
             id,
-            inmobiliaria,
-            broker,
+            Inmobiliaria,
+            Broker,
             enVenta,
             enAlquiler,
             titulo,
             descripcion,
-            ubicacion,
-            caracteristicas,
+            Ubicacion,
+            Caracteristicas,
             destacada,
             venta,
             alquiler,
             fotos,
-            url
+            url,
+        } = req.body; // Asegúrate de que el cliente envíe el cuerpo correctamente
+
+        // Crear el objeto de propiedad
+        const nuevaPropiedad = {
+            tipo,
+            id,
+            Inmobiliaria,
+            Broker,
+            enVenta: enVenta || false,
+            enAlquiler: enAlquiler || false,
+            titulo,
+            descripcion,
+            Ubicacion,
+            Caracteristicas,
+            destacada: destacada || false,
+            venta,
+            alquiler,
+            fotos,
+            url,
         };
 
-        // Pasamos la propiedad completa al repositorio
-        const nuevaPropiedad = await this.propiedadRepository.createPropiedad(propiedad);
-        res.status(201).json(nuevaPropiedad);
-    } catch (error) {
-        console.error("Error al crear propiedad:", error);
-        res.status(500).json({ message: "Error al crear propiedad" });
-    }
-};
-
-// Obtener todas las propiedades
-const getPropiedades = async (req, res) => {
-    try {
-        const propiedades = await propiedadRepository.getPropiedades();
-        return res.status(200).json(propiedades);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Error al obtener las propiedades' });
-    }
-};
-
-// Obtener propiedades con filtros y paginación
-const getPropiedadesLimited = async (req, res) => {
-    try {
-        const { filter, options } = req.query;
-        const propiedades = await propiedadRepository.getPropiedadesLimited({ 
-            filter: JSON.parse(filter || '{}'), 
-            options: JSON.parse(options || '{}') 
-        });
-        return res.status(200).json(propiedades);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Error al obtener propiedades con filtros y paginación' });
-    }
-};
-
-// Obtener una propiedad por un filtro
-const getPropiedadBy = async (req, res) => {
-    try {
-        const filter = req.query;
-        const propiedad = await propiedadRepository.getPropiedadBy(filter);
-        if (!propiedad) {
-            return res.status(404).json({ message: 'Propiedad no encontrada' });
+        try {
+            const propiedadCreada = await this.propiedadService.createPropiedad(nuevaPropiedad);
+            res.status(201).json(propiedadCreada);
+        } catch (error) {
+            console.error('Error al crear propiedad:', error);
+            res.status(500).json({ message: 'Error al crear propiedad' });
         }
-        return res.status(200).json(propiedad);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Error al obtener la propiedad' });
-    }
-};
+    };
 
-// Obtener una propiedad por ID
-const getPropiedadById = async (req, res) => {
-    try {
-        const propiedadId = req.params.id;
-        const propiedad = await propiedadRepository.getPropiedadById(propiedadId);
-        if (!propiedad) {
-            return res.status(404).json({ message: 'Propiedad no encontrada' });
+    // Actualizar una propiedad según ID
+    updatePropiedad = async (req, res) => {
+        const { pid } = req.params;
+        const updatedFields = req.body; // Asegúrate de que el cliente envíe el cuerpo correctamente
+        try {
+            const propiedadActualizada = await this.propiedadService.updatePropiedad(pid, updatedFields);
+            if (propiedadActualizada) {
+                res.status(200).json(propiedadActualizada);
+            } else {
+                res.status(404).json({ message: 'Propiedad no encontrada' });
+            }
+        } catch (error) {
+            console.error('Error al actualizar propiedad:', error);
+            res.status(500).json({ message: 'Error al actualizar propiedad' });
         }
-        return res.status(200).json(propiedad);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Error al obtener la propiedad por ID' });
-    }
-};
+    };
 
-// Actualizar una propiedad según ID
-const updatePropiedad = async (req, res) => {
-    try {
-        const propiedadId = req.params.id;
-        const updatedFields = req.body;
-        
-        // Validar los campos actualizados (si es necesario)
-        if (!Object.keys(updatedFields).length) {
-            return res.status(400).json({ message: 'No hay campos para actualizar' });
+    // Eliminar una propiedad según ID
+    deletePropiedad = async (req, res) => {
+        const { pid } = req.params;
+        try {
+            const propiedadEliminada = await this.propiedadService.deletePropiedad(pid);
+            if (propiedadEliminada) {
+                res.status(204).send(); // 204 No Content
+            } else {
+                res.status(404).json({ message: 'Propiedad no encontrada' });
+            }
+        } catch (error) {
+            console.error('Error al eliminar propiedad:', error);
+            res.status(500).json({ message: 'Error al eliminar propiedad' });
         }
+    };
+}
 
-        const propiedadActualizada = await propiedadRepository.updatePropiedad(propiedadId, updatedFields);
-        if (!propiedadActualizada) {
-            return res.status(404).json({ message: 'Propiedad no encontrada' });
-        }
-        return res.status(200).json(propiedadActualizada);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Error al actualizar la propiedad' });
-    }
-};
-
-// Eliminar una propiedad según ID
-const deletePropiedad = async (req, res) => {
-    try {
-        const propiedadId = req.params.id;
-        const propiedadEliminada = await propiedadRepository.deletePropiedad(propiedadId);
-        if (!propiedadEliminada) {
-            return res.status(404).json({ message: 'Propiedad no encontrada' });
-        }
-        return res.status(200).json({ message: 'Propiedad eliminada exitosamente' });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Error al eliminar la propiedad' });
-    }
-};
-
-// Exportar los controladores
-module.exports = {
-    createPropiedad,
-    getPropiedades,
-    getPropiedadesLimited,
-    getPropiedadBy,
-    getPropiedadById,
-    updatePropiedad,
-    deletePropiedad
-};
+module.exports = PropiedadController;

@@ -1,12 +1,20 @@
 // Importa Express y Axios
 const express = require('express');
 const axios = require('axios');
-
+const appRouter = require('./src/routes/index')
+const path = require('path');
+const { connectDB, configObject } = require('./src/config/index')
 // Crear la app con Express
 const app = express();
 
 // Puerto en el que correrá el servidor
 const PORT = 3000;
+connectDB()
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(appRouter)
 
 // Ruta para hacer la petición a la URL del CRM
 app.get('/crm', async (req, res) => {
