@@ -15,12 +15,12 @@ class PropiedadDaoMongo {
         return await this.model.find();
     }
 
-    // Obtener propiedades con paginación o límites
+    // Obtener propiedades con paginacion o limites
     async getLimited({ filter, options }) {
         return await this.model.paginate(filter, options);
     }
 
-    // Mostrar una propiedad según un filtro
+    // Mostrar una propiedad segun un filtro
     async getBy(filter) {
         return await this.model.findOne(filter);
     }
@@ -30,7 +30,7 @@ class PropiedadDaoMongo {
         return await this.model.findById({ _id: propiedadId });
     }
 
-    // Actualizar una propiedad según ID
+    // Actualizar una propiedad segun ID
     async update(propiedadId, updatedFields) {
         return await this.model.findOneAndUpdate(
             { _id: propiedadId },
@@ -39,7 +39,7 @@ class PropiedadDaoMongo {
         );
     }
 
-    // Eliminar una propiedad según ID
+    // Eliminar una propiedad segun ID
     async delete(propiedadId) {
         return await this.model.findByIdAndDelete({_id:propiedadId});
     }

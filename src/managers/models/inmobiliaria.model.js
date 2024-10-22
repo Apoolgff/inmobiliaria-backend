@@ -2,6 +2,7 @@ const { Schema, model, Types } = require('mongoose');
 const inmobiliariasCollection = 'Inmobiliarias';
 
 const InmobiliariaSchema = Schema({
+    nombre: { type: String, required: true, trim: true },
     rut: { type: String, required: true, unique: true },
     razon_social: { type: String, required: true, trim: true },
     telefono: { type: String, required: true },
@@ -9,15 +10,18 @@ const InmobiliariaSchema = Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     suscripcion: { type: String, enum: ['inmobiliaria'], required: true },
-    publicaciones: [{ type: Types.ObjectId, ref: 'Publicaciones' }], // Referencia a publicaciones de la inmobiliaria
-    propiedades: [{ type: Types.ObjectId, ref: 'Propiedad' }], // Referencia a propiedades publicadas
+    publicaciones: [{ type: Types.ObjectId, ref: 'Publicaciones' }], 
+    propiedades: [{ type: Types.ObjectId, ref: 'Propiedades' }], 
     fecha_creacion: { type: Date, default: Date.now }
 });
 
-// Middleware para poblar publicaciones y propiedades al hacer consultas
+InmobiliariaSchema.pre('find', function() {
+    this.populate('publicaciones').populate('propiedades');
+});
+
 InmobiliariaSchema.pre('findOne', function() {
     this.populate('publicaciones').populate('propiedades');
 });
 
-const InmobiliariaModel = model(inmobiliariasCollection, InmobiliariaSchema);
-module.exports = { InmobiliariaModel };
+const inmobiliariaModel = model(inmobiliariasCollection, InmobiliariaSchema);
+module.exports = { inmobiliariaModel };

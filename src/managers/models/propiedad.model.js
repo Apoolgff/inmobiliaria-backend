@@ -1,9 +1,9 @@
 //const mongoose = require('mongoose');
 const { Schema, model } = require('mongoose')
 
-const PropiedadCollection ='Propiedad';
+const PropiedadCollection ='Propiedades';
 
-// Definir subesquema de Inmobiliaria
+// Sub-Esquemas
 const InmobiliariaSchema = Schema({
     nombre: { type: String, required: true },
     codigo: { type: String },
@@ -15,7 +15,7 @@ const InmobiliariaSchema = Schema({
     logo: { type: String }
 });
 
-// Definir subesquema de Broker
+
 const BrokerSchema = Schema({
     id: { type: Number, default: 0 },
     nombre: { type: String },
@@ -24,7 +24,7 @@ const BrokerSchema = Schema({
     foto: { type: String }
 });
 
-// Definir subesquema de Ubicacion
+
 const UbicacionSchema = Schema({
     departamento: { type: String },
     ciudad: { type: String },
@@ -36,7 +36,7 @@ const UbicacionSchema = Schema({
     lon: { type: Number }
 });
 
-// Definir subesquema de Caracteristicas
+
 const CaracteristicasSchema = Schema({
     parrillero: { type: String },
     playroom: { type: String },
@@ -66,7 +66,7 @@ const CaracteristicasSchema = Schema({
     vista: { type: String }
 });
 
-// Definir subesquema de Venta
+
 const VentaSchema = Schema({
     precio: { type: Number },
     mda: { type: String },
@@ -79,7 +79,7 @@ const VentaSchema = Schema({
     saldobanco: { type: Number }
 });
 
-// Definir subesquema de Alquiler
+
 const AlquilerSchema = Schema({
     VigenciaAlquiler: { type: Date },
     PrecioPubliacionAlquiler: { type: Number },
@@ -90,13 +90,13 @@ const AlquilerSchema = Schema({
     AceptaMascota: { type: String }
 });
 
-// Definir subesquema de Fotos
+
 const FotoSchema = Schema({
     url: { type: String },
     descripcion: { type: String }
 });
 
-// Definir esquema principal de Propiedad
+// Esquema principal
 const PropiedadSchema = Schema({
     tipo: { type: String, required: true },
     id: { type: String, required: true, unique: true },
@@ -115,6 +115,6 @@ const PropiedadSchema = Schema({
     url: { type: String }
 });
 
-// Crear y exportar el modelo de Propiedad
+
 const propiedadModel = model(PropiedadCollection, PropiedadSchema);
 module.exports = {propiedadModel}

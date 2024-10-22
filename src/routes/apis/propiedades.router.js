@@ -7,9 +7,12 @@ const PropiedadController = require('../../controllers/propiedad.controller')
 const propiedadController = new PropiedadController()
 
 //Crear Propiedad
-propiedadRouter.post('/propiedades', propiedadController.createPropiedad);
-propiedadRouter.get('/propiedades', propiedadController.getPropiedades);
-propiedadRouter.put('/propiedades/:pid', propiedadController.updatePropiedad);
-propiedadRouter.delete('/propiedades/:pid', propiedadController.deletePropiedad);
+propiedadRouter.post('/usuario/:uid', propiedadController.createPropiedad);
+propiedadRouter.post('/inmobiliaria/:iid', propiedadController.createPropiedad);
+propiedadRouter.get('/', propiedadController.getPropiedades);
+propiedadRouter.put('/:pid', propiedadController.updatePropiedad);
+propiedadRouter.delete('/:pid/usuarios/:uid', propiedadController.deletePropiedad);
+propiedadRouter.delete('/:pid/inmobiliarias/:iid', propiedadController.deletePropiedad);
+
 
 module.exports = propiedadRouter;
