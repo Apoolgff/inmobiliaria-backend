@@ -48,9 +48,9 @@ class PropiedadController {
 
     // Obtener una propiedad por ID
     getPropiedadById = async (req, res) => {
-        const { id } = req.params;
+        const { pid } = req.params;
         try {
-            const propiedad = await this.propiedadService.getPropiedadById(id);
+            const propiedad = await this.propiedadService.getPropiedadById(pid);
             if (propiedad) {
                 res.status(200).json(propiedad);
             } else {

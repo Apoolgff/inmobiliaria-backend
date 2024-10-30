@@ -10,6 +10,7 @@ const publicacionController = new PublicacionController()
 publicacionRouter.post('/usuario/:uid', publicacionController.createPublicacion);
 publicacionRouter.post('/inmobiliaria/:iid', publicacionController.createPublicacion);
 publicacionRouter.get('/', publicacionController.getPublicaciones);
+publicacionRouter.get('/:pid', publicacionController.getPublicacionById);
 publicacionRouter.put('/:pid', publicacionController.updatePublicacion);
 publicacionRouter.delete('/:pid/usuario/:uid', publicacionController.deletePublicacion);
 publicacionRouter.delete('/:pid/inmobiliaria/:iid', publicacionController.deletePublicacion);

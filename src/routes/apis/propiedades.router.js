@@ -10,6 +10,7 @@ const propiedadController = new PropiedadController()
 propiedadRouter.post('/usuario/:uid', propiedadController.createPropiedad);
 propiedadRouter.post('/inmobiliaria/:iid', propiedadController.createPropiedad);
 propiedadRouter.get('/', propiedadController.getPropiedades);
+propiedadRouter.get('/:pid', propiedadController.getPropiedadById);
 propiedadRouter.put('/:pid', propiedadController.updatePropiedad);
 propiedadRouter.delete('/:pid/usuarios/:uid', propiedadController.deletePropiedad);
 propiedadRouter.delete('/:pid/inmobiliarias/:iid', propiedadController.deletePropiedad);

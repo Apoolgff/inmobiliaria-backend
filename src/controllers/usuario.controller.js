@@ -46,9 +46,9 @@ class UsuarioController {
 
     // Obtener un usuario por ID
     getUsuarioById = async (req, res) => {
-        const { id } = req.params;
+        const { uid } = req.params;
         try {
-            const usuario = await this.usuarioService.getUsuarioById(id);
+            const usuario = await this.usuarioService.getUsuarioById(uid);
             if (usuario) {
                 res.status(200).json(usuario);
             } else {
@@ -62,15 +62,15 @@ class UsuarioController {
 
     // Crear un nuevo usuario
     createUsuario = async (req, res) => {
-        const { nombre, apellido, email, password, suscripcion, publicaciones, propiedades } = req.body;
+        const { nombre, apellido, email, telefono, password, publicaciones, propiedades } = req.body;
 
         // Crear el objeto de usuario
         const nuevoUsuario = {
             nombre,
             apellido,
             email,
+            telefono,
             password,
-            suscripcion,
             publicaciones,
             propiedades
         };

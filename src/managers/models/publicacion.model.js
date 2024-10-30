@@ -7,7 +7,11 @@ const PublicacionSchema = Schema({
     usuario: { type: Types.ObjectId, ref: 'Usuarios' }, 
     inmobiliaria: { type: Types.ObjectId, ref: 'Inmobiliarias' },
     tipo: { type: String, enum: ['alquiler', 'venta'], required: true },
+    tipo_publicacion: { type: String, enum: ['standard', 'premium'], required: true },
+    estado: { type: Boolean, default: true },
+    visibilidad: {type: String, enum: ['normal', 'destacada'], required: true },
     fecha_creacion: { type: Date, default: Date.now },
+    fecha_expiracion: { type: Date },
     tiempo_max_alquiler: { type: Number, required: function() { return this.tipo === 'alquiler'; } }, 
     precio_venta: { type: Number, required: function() { return this.tipo === 'venta'; } },
     precio_alquiler: { 

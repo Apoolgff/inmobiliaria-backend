@@ -46,9 +46,9 @@ class InmobiliariaController {
 
     // Obtener una inmobiliaria por ID
     getInmobiliariaById = async (req, res) => {
-        const { id } = req.params;
+        const { iid } = req.params;
         try {
-            const inmobiliaria = await this.inmobiliariaService.getInmobiliariaById(id);
+            const inmobiliaria = await this.inmobiliariaService.getInmobiliariaById(iid);
             if (inmobiliaria) {
                 res.status(200).json(inmobiliaria);
             } else {

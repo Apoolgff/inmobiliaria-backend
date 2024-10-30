@@ -9,6 +9,7 @@ const usuarioController = new UsuarioController()
 //Crear Propiedad
 usuarioRouter.post('/', usuarioController.createUsuario);
 usuarioRouter.get('/', usuarioController.getUsuarios);
+usuarioRouter.get('/:uid', usuarioController.getUsuarioById);
 usuarioRouter.put('/:uid', usuarioController.updateUsuario);
 usuarioRouter.delete('/:uid', usuarioController.deleteUsuario);
 
