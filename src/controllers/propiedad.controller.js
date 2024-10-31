@@ -84,9 +84,22 @@ class PropiedadController {
             } = req.body;
     
             const { uid, iid } = req.params;
+
+            let propietario;
+            let propietarioTipo;
+    
+            if (uid) {
+                propietario = uid;
+                propietarioTipo = 'Usuarios';
+            } else if (iid) {
+                propietario = iid;
+                propietarioTipo = 'Inmobiliarias';
+            }
     
             // Crear el objeto de propiedad
             const nuevaPropiedad = {
+                propietario,
+                propietarioTipo,
                 tipo,
                 id,
                 Inmobiliaria,

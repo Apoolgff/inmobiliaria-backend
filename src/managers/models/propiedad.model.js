@@ -1,11 +1,11 @@
 //const mongoose = require('mongoose');
-const { Schema, model } = require('mongoose')
+const { Schema, model, Types } = require('mongoose')
 
 const PropiedadCollection ='Propiedades';
 
 // Sub-Esquemas
 const InmobiliariaSchema = Schema({
-    nombre: { type: String, required: true },
+    nombre: { type: String },
     codigo: { type: String },
     email: { type: String },
     direccion: { type: String },
@@ -98,6 +98,15 @@ const FotoSchema = Schema({
 
 // Esquema principal
 const PropiedadSchema = Schema({
+    propietario: {
+        type: Types.ObjectId,
+        refPath: 'propietarioTipo'  
+    },
+    propietarioTipo: {
+        type: String,
+        enum: ['Usuarios', 'Inmobiliarias'],
+        required: false
+    },
     tipo: { type: String, required: true },
     id: { type: String, required: true, unique: true },
     Inmobiliaria: InmobiliariaSchema,
