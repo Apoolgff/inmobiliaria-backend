@@ -9,7 +9,7 @@ const InmobiliariaSchema = Schema({
     direccion: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    suscripcion: { type: String, enum: ['inmobiliaria'], required: true },
+    descripcion: { type: String },
     publicaciones: [{ type: Types.ObjectId, ref: 'Publicaciones' }], 
     propiedades: [{ type: Types.ObjectId, ref: 'Propiedades' }], 
     fecha_creacion: { type: Date, default: Date.now }

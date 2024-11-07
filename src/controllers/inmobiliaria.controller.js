@@ -62,7 +62,7 @@ class InmobiliariaController {
 
     // Crear una nueva inmobiliaria
     createInmobiliaria = async (req, res) => {
-        const { nombre, rut, razon_social, telefono, direccion, email, password, publicaciones, propiedades } = req.body; 
+        const { nombre, rut, razon_social, telefono, direccion, email, password, descripcion, publicaciones, propiedades } = req.body; 
 
         // Crear el objeto de inmobiliaria
         const nuevaInmobiliaria = {
@@ -73,7 +73,7 @@ class InmobiliariaController {
             direccion,
             email,
             password,
-            suscripcion: 'inmobiliaria', //testeo de sub para inmobiliaria
+            descripcion,
             publicaciones,
             propiedades
         };

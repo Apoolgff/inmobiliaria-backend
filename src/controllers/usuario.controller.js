@@ -1,9 +1,79 @@
 const { usuarioService } = require('../repositories/services');
+const { configObject } = require ('../config/index')
+const { createHash, isValidPassword } = require("../utils/hashPassword")
+const { generateToken } = require('../utils/jwt'); // Ajusta la ruta según tu estructura de archivos
+
 
 class UsuarioController {
     constructor() {
         this.usuarioService = usuarioService;
     }
+
+    // usuario.controller.js
+
+    getUsuarioActual = async (req, res) => {
+        try {
+            const usuario = await this.usuarioService.getUsuarioById(req.user.userId); // Usa el userId del token
+            if (usuario) {
+                res.status(200).json(usuario);
+            } else {
+                res.status(404).json({ message: 'Usuario no encontrado' });
+            }
+        } catch (error) {
+            console.error('Error al obtener el usuario actual:', error);
+            res.status(500).json({ message: 'Error al obtener el usuario actual' });
+        }
+    };
+
+
+    // Login de usuario
+    loginUsuario = async (req, res) => {
+        const { email, password } = req.body;
+
+        try {
+            const usuario = await this.usuarioService.getUsuarioBy({ email });
+            if (!usuario) {
+                return res.status(404).json({ message: 'Usuario no encontrado' });
+            }
+
+            // Verificar que la contraseña sea correcta
+            const isMatch = await isValidPassword(password, usuario.password);
+            if (!isMatch) {
+                return res.status(400).json({ message: 'Contraseña incorrecta' });
+            }
+
+            // Crear el JWT
+            //const payload = { uid: usuario._id, email: usuario.email };
+            const token = generateToken(usuario);
+            
+
+            // Guardar el token en una cookie
+            res.cookie(configObject.cookie_name, token, {
+                httpOnly: true,
+                secure: false, //process.env.NODE_ENV === 'production', // Solo en producción usar https
+                maxAge: 3600000,
+                sameSite: 'strict', // Protección CSRF
+            });
+
+            res.status(200).json({ message: 'Inicio de sesión exitoso' });
+
+        } catch (error) {
+            console.error('Error al iniciar sesión:', error);
+            res.status(500).json({ message: 'Error al iniciar sesión' });
+        }
+    };
+
+    // Logout de usuario
+    logoutUsuario = async (req, res) => {
+        try {
+            // Eliminar la cookie del token
+            res.clearCookie(configObject.cookie_name);
+            res.status(200).json({ message: 'Cierre de sesión exitoso' });
+        } catch (error) {
+            console.error('Error al cerrar sesión:', error);
+            res.status(500).json({ message: 'Error al cerrar sesión' });
+        }
+    };
 
     // Obtener todos los usuarios
     getUsuarios = async (req, res) => {
@@ -70,7 +140,7 @@ class UsuarioController {
             apellido,
             email,
             telefono,
-            password,
+            password: await createHash(password),
             publicaciones,
             propiedades
         };

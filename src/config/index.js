@@ -1,5 +1,6 @@
 const { connect } = require('mongoose')
-const dotenv = require('dotenv')
+require('dotenv').config();
+//const dotenv = require('dotenv')
 
 
 
@@ -9,11 +10,14 @@ exports.configObject = {
   jwt_secret_key: process.env.JWT_SECRET_KEY,
   cookie_secret_key: process.env.COOKIE_SECRET_KEY,
   persistence: process.env.PERSISTENCE,
+  jwt_expiration_time: process.env.JWT_EXPIRATION_TIME,
+  cookie_name: process.env.COOKIE_NAME,
+  cookie_expiration_time: process.env.COOKIE_EXPIRATION_TIME,
 }
 
 exports.connectDB = async () => {
-    await connect("mongodb+srv://LotesDeMar:Lotesdemar123456789@clusterinmobiliaria.oxvxu.mongodb.net/?retryWrites=true&w=majority&appName=ClusterInmobiliaria")
+    await connect(process.env.MONGO_URI)
     console.log('Base de datos conectada')
-  }
+  } 
 
 
