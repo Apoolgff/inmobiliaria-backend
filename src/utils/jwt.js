@@ -3,7 +3,7 @@ const { configObject } = require('../config/index');
 
 // Clave secreta para firmar el token (debe estar en tu archivo .env)
 const JWT_SECRET = configObject.jwt_secret_key || 'your_secret_key';
-const JWT_EXPIRATION = configObject.jwt_expiration_time || '1h'; // Expiración del token, por ejemplo '1h'
+const JWT_EXPIRATION = configObject.jwt_expiration_time || '5s'; // Expiración del token, por ejemplo '1h'
 
 // Función para generar el JWT y almacenarlo en una cookie
 const generateToken = (user) => {
@@ -37,6 +37,7 @@ const verifyToken = (req, res, next) => {
     // Verifica el token
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
         if (err) {
+            res.clearCookie(configObject.cookie_name); 
             return res.status(401).json({ message: 'Token inválido o expirado' });
         }
 
