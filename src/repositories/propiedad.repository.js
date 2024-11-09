@@ -14,6 +14,9 @@ class PropiedadRepository {
     // Obtener una propiedad segun un filtro
     getPropiedadBy = async (filter) => await this.dao.getBy(filter);
 
+    // Obtener una propiedades segun un usuario
+    getPropiedadesByUserId = async (filter) => await this.dao.getByUser(filter);
+
     // Obtener una propiedad por ID
     getPropiedadById = async (propiedadId) => await this.dao.getById(propiedadId);
 

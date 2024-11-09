@@ -9,6 +9,7 @@ const propiedadController = new PropiedadController()
 //Crear Propiedad
 propiedadRouter.post('/usuario/:uid', propiedadController.createPropiedad);
 propiedadRouter.post('/inmobiliaria/:iid', propiedadController.createPropiedad);
+propiedadRouter.get('/usuario/:uid', propiedadController.getPropiedadesByUserId);
 propiedadRouter.get('/', propiedadController.getPropiedades);
 propiedadRouter.get('/:pid', propiedadController.getPropiedadById);
 propiedadRouter.put('/:pid', propiedadController.updatePropiedad);

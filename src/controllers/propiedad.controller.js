@@ -47,6 +47,23 @@ class PropiedadController {
     };
 
     // Obtener una propiedad por ID
+    getPropiedadesByUserId = async (req, res) => {
+        const { uid } = req.params;
+        try {
+            const propiedades = await this.propiedadService.getPropiedadesByUserId(uid); // Nota el cambio aquí para obtener todas las propiedades
+            if (propiedades && propiedades.length > 0) {
+                res.status(200).json(propiedades);
+            } else {
+                res.status(404).json({ message: 'No se encontraron propiedades para este usuario' });
+            }
+        } catch (error) {
+            console.error('Error al obtener propiedades del usuario:', error);
+            res.status(500).json({ message: 'Error al obtener propiedades del usuario' });
+        }
+    };
+    
+
+    // Obtener una propiedad por ID
     getPropiedadById = async (req, res) => {
         const { pid } = req.params;
         try {
@@ -115,7 +132,7 @@ class PropiedadController {
                 alquiler,
                 fotos,
                 url,
-            };
+            }; 
     
             // Crear la propiedad en la base de datos
             const propiedadCreada = await this.propiedadService.createPropiedad(nuevaPropiedad);

@@ -25,6 +25,11 @@ class PropiedadDaoMongo {
         return await this.model.findOne(filter);
     }
 
+    //Mostrar Propiedades de un usuario
+    async getByUser(filter) {
+        return await this.model.find({propietario: filter});
+    }
+
     // Obtener una propiedad por ID
     async getById(propiedadId) {
         return await this.model.findById({ _id: propiedadId });
