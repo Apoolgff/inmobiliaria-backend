@@ -2,8 +2,8 @@ const jwt = require('jsonwebtoken');
 const { configObject } = require('../config/index');
 
 // Clave secreta para firmar el token (debe estar en tu archivo .env)
-const JWT_SECRET = configObject.jwt_secret_key || 'your_secret_key';
-const JWT_EXPIRATION = configObject.jwt_expiration_time || '5m'; // Expiración del token, por ejemplo '1h'
+const JWT_SECRET = configObject.jwt_secret_key || 'your_secret_key'; 
+const JWT_EXPIRATION = configObject.jwt_expiration_time || '1h'; // Expiración del token, por ejemplo '1h'
 
 // Función para generar el JWT y almacenarlo en una cookie
 const generateToken = (user) => {

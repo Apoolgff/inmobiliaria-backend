@@ -1,6 +1,6 @@
 const { Schema, model, Types } = require('mongoose');
 
-const publicacionesCollection = 'Publicaciones';
+const publicacionesCollection = 'Publicaciones'; 
 
 const PublicacionSchema = Schema({
     propiedad: { type: Types.ObjectId, ref: 'Propiedades', required: true }, 
@@ -20,9 +20,6 @@ const PublicacionSchema = Schema({
     },
 });
 
-PublicacionSchema.pre('find', function() {
-    this.populate('propiedad').populate('usuario').populate('inmobiliaria');
-});
 
 PublicacionSchema.pre('findOne', function() {
     this.populate('propiedad').populate('usuario').populate('inmobiliaria');

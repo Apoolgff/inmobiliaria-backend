@@ -45,7 +45,6 @@ class UsuarioController {
             // Crear el JWT
             //const payload = { uid: usuario._id, email: usuario.email };
             const token = generateToken(usuario);
-            
 
             // Guardar el token en una cookie
             res.cookie(configObject.cookie_name, token, {
