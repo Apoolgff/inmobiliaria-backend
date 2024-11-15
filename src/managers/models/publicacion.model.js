@@ -25,5 +25,6 @@ PublicacionSchema.pre('findOne', function() {
     this.populate('propiedad').populate('usuario').populate('inmobiliaria');
 });
 
+
 const publicacionModel = model(publicacionesCollection, PublicacionSchema);
 module.exports = { publicacionModel };

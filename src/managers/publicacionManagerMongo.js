@@ -12,7 +12,10 @@ class PublicacionDaoMongo {
 
     // Mostrar todos las publicaciones
     async get() {
-        return await this.model.find();
+        return await this.model.find({})
+        .populate('propiedad')
+        .populate('usuario')
+        .populate('inmobiliaria');
     }
 
     // Obtener publicaciones con paginacion o limites
