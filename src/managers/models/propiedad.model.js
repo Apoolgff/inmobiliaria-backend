@@ -336,7 +336,7 @@ const TerrenoSchema = new Schema({
     saneamiento: { type: String },
     piscina: { type: String },
     parrillero: { type: String },
-    fechaconstruccion: { type: Number },
+    fechaconstruccion: { type: Date },
     muebles: { type: String },
     amoblado: { type: String },
     amovred: { type: String },
