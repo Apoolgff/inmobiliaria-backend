@@ -9,17 +9,17 @@ const UsuarioSchema = Schema({
     telefono: { type: String, required: true, unique: true, trim: true },
     password: { type: String, required: true, trim: true },
     publicaciones: [{ type: Types.ObjectId, ref: 'Publicaciones' }], 
-    propiedades: [{ type: Types.ObjectId, ref: 'Propiedades' }], 
+    //propiedades: [{ type: Types.ObjectId, ref: 'Propiedades' }], 
     fecha_creacion: { type: Date, default: Date.now }
 });
 
 
 UsuarioSchema.pre('find', function() {
-    this.populate('publicaciones').populate('propiedades');
+    this.populate('publicaciones');
 });
 
 UsuarioSchema.pre('findOne', function() {
-    this.populate('publicaciones').populate('propiedades');
+    this.populate('publicaciones');
 });
 
 

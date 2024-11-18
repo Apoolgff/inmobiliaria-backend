@@ -1,13 +1,13 @@
 const { Router } = require('express');
 const router = Router();
-const propiedadesRouter = require('./apis/propiedades.router');
+const publicacionesRouter = require('./apis/publicacion.router');
 const usuariosRouter = require('./apis/usuarios.router');
 const inmobiliariaRouter = require('./apis/inmobiliaria.router')
-const publicacionRouter = require('./apis/publicacion.router')
+//const publicacionRouter = require('./apis/publicacion.router')
 
-router.use('/propiedades', propiedadesRouter);
+router.use('/publicacion', publicacionesRouter);
 router.use('/usuarios', usuariosRouter)
 router.use('/inmobiliaria', inmobiliariaRouter)
-router.use('/publicacion', publicacionRouter)
+//router.use('/publicacion', publicacionRouter)
 
 module.exports = router;

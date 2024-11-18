@@ -131,7 +131,7 @@ class UsuarioController {
 
     // Crear un nuevo usuario
     createUsuario = async (req, res) => {
-        const { nombre, apellido, email, telefono, password, publicaciones, propiedades } = req.body;
+        const { nombre, apellido, email, telefono, password, publicaciones  } = req.body;
 
         // Crear el objeto de usuario
         const nuevoUsuario = {
@@ -141,7 +141,6 @@ class UsuarioController {
             telefono,
             password: await createHash(password),
             publicaciones,
-            propiedades
         };
 
         try {

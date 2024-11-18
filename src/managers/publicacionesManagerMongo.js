@@ -1,18 +1,21 @@
-const { publicacionModel } = require('./models/prublicacion.model');
+/*const { publicacionModel } = require('./models/publicacion.model');
 
 class PublicacionDaoMongo {
     constructor() {
         this.model = publicacionModel;
     }
 
-    // Crear una nueva publicacion
+    // Crear un nuevo publicacion
     async create(publicacion) {
         return await this.model.create(publicacion);
     }
 
-    // Mostrar todas las publicaciones
+    // Mostrar todos las publicaciones
     async get() {
-        return await this.model.find();
+        return await this.model.find({})
+        .populate('propiedad')
+        .populate('usuario')
+        .populate('inmobiliaria');
     }
 
     // Obtener publicaciones con paginacion o limites
@@ -23,11 +26,6 @@ class PublicacionDaoMongo {
     // Mostrar una publicacion segun un filtro
     async getBy(filter) {
         return await this.model.findOne(filter);
-    }
-
-    //Mostrar publicaciones de un usuario
-    async getByUser(filter) {
-        return await this.model.find({propietario: filter});
     }
 
     // Obtener una publicacion por ID
@@ -46,8 +44,8 @@ class PublicacionDaoMongo {
 
     // Eliminar una publicacion segun ID
     async delete(publicacionId) {
-        return await this.model.findByIdAndDelete({_id:publicacionId});
+        return await this.model.findByIdAndDelete({ _id: publicacionId });
     }
 }
 
-module.exports = PublicacionDaoMongo;
+module.exports = PublicacionDaoMongo;*/

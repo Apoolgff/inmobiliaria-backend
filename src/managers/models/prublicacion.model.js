@@ -1,7 +1,7 @@
 //const mongoose = require('mongoose');
 const { Schema, model, Types } = require('mongoose')
 
-const PropiedadCollection ='Propiedades';
+const PublicacionCollection ='Publicaciones';
 
 // Sub-Esquemas
 const InmobiliariaSchema = Schema({
@@ -184,7 +184,7 @@ const CaracteristicasSchema = new Schema({
   
   
 
-const TerrenoSchema = new Schema({
+/*const TerrenoSchema = new Schema({
     vista: { type: String },
     distanciamarmetros: { type: String },
     frentealmar: { type: String },
@@ -424,7 +424,7 @@ const TerrenoSchema = new Schema({
     tipo: { type: Number },
     youtube: { type: String },
     matterport: { type: String }
-  });
+  });*/
   
 
 const VentaSchema = Schema({
@@ -487,7 +487,7 @@ const FotoSchema = Schema({
 });
 
 // Esquema principal
-const PropiedadSchema = Schema({
+const PublicacionSchema = Schema({
     propietario: {
         type: Types.ObjectId,
         refPath: 'propietarioTipo'  
@@ -515,5 +515,5 @@ const PropiedadSchema = Schema({
 });
 
 
-const propiedadModel = model(PropiedadCollection, PropiedadSchema);
-module.exports = {propiedadModel}
+const publicacionModel = model(PublicacionCollection, PublicacionSchema);
+module.exports = {publicacionModel}

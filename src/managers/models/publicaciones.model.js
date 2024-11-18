@@ -1,4 +1,4 @@
-const { Schema, model, Types } = require('mongoose');
+/*const { Schema, model, Types } = require('mongoose');
 
 const publicacionesCollection = 'Publicaciones'; 
 
@@ -27,4 +27,4 @@ PublicacionSchema.pre('findOne', function() {
 
 
 const publicacionModel = model(publicacionesCollection, PublicacionSchema);
-module.exports = { publicacionModel };
+module.exports = { publicacionModel };*/

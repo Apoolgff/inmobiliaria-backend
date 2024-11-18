@@ -1,4 +1,4 @@
-const PublicacionDaoMongo = require('../managers/publicacionManagerMongo');
+/*const PublicacionDaoMongo = require('../managers/publicacionManagerMongo');
 
 class PublicacionRepository {
     constructor() {
@@ -6,16 +6,13 @@ class PublicacionRepository {
     }
 
     // Obtener todas las publicaciones
-    getPublicaciones = async () => await this.dao.get();
+    getPublicacion = async () => await this.dao.get();
 
-    // Obtener publicaciones con límites
-    getPublicacionesLimited = async ({ filter, options }) => await this.dao.getLimited({ filter, options });
+    // Obtener publicaciones con limites
+    getPublicacionLimited = async ({ filter, options }) => await this.dao.getLimited({ filter, options });
 
     // Obtener una publicacion segun un filtro
     getPublicacionBy = async (filter) => await this.dao.getBy(filter);
-
-    // Obtener una publicacion segun un usuario
-    getPublicacionesByUserId = async (filter) => await this.dao.getByUser(filter);
 
     // Obtener una publicacion por ID
     getPublicacionById = async (publicacionId) => await this.dao.getById(publicacionId);
@@ -30,4 +27,4 @@ class PublicacionRepository {
     deletePublicacion = async (pid) => await this.dao.delete(pid);
 }
 
-module.exports = { PublicacionRepository };
+module.exports = { PublicacionRepository };*/
