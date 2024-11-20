@@ -1,14 +1,14 @@
 const cron = require('node-cron');
-const { publicacionModel } = require('../models/Publicacion'); // Asegúrate de que el path sea correcto
+const { publicacionModel } = require('../models/Publicacion');
 
-// Tarea programada: verificar publicaciones estándar cada día a la medianoche
+//Tarea programada: verificar publicaciones estandar cada dia a la medianoche
 cron.schedule('0 0 * * *', async () => {
     console.log("Ejecutando tarea programada para actualizar publicaciones estándar");
 
     const fechaActual = new Date();
 
     try {
-        // Busca publicaciones estándar que estén activas y cuya fecha de expiración haya pasado
+        //Busca publicaciones estandar que esten activas y fuera de fecha
         const publicacionesExpiradas = await publicacionModel.find({
             tipo_publicacion: 'standard',
             estado: true,
@@ -16,7 +16,7 @@ cron.schedule('0 0 * * *', async () => {
         });
 
         if (publicacionesExpiradas.length > 0) {
-            // Actualiza el estado de las publicaciones expiradas a inactivo
+            //Actualiza el estado de las publicaciones expiradas a inactivas
             await publicacionModel.updateMany(
                 { _id: { $in: publicacionesExpiradas.map(pub => pub._id) } },
                 { $set: { estado: false } }

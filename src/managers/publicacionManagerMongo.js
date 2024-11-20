@@ -5,22 +5,22 @@ class PublicacionDaoMongo {
         this.model = publicacionModel;
     }
 
-    // Crear una nueva publicacion
+    //Crear una nueva publicacion
     async create(publicacion) {
         return await this.model.create(publicacion);
     }
 
-    // Mostrar todas las publicaciones
+    //Mostrar todas las publicaciones
     async get() {
         return await this.model.find();
     }
 
-    // Obtener publicaciones con paginacion o limites
+    //Obtener publicaciones con paginacion o limites
     async getLimited({ filter, options }) {
         return await this.model.paginate(filter, options);
     }
 
-    // Mostrar una publicacion segun un filtro
+    //Mostrar una publicacion por un filtro
     async getBy(filter) {
         return await this.model.findOne(filter);
     }
@@ -30,12 +30,12 @@ class PublicacionDaoMongo {
         return await this.model.find({propietario: filter});
     }
 
-    // Obtener una publicacion por ID
+    //Obtener una publicacion por ID
     async getById(publicacionId) {
         return await this.model.findById({ _id: publicacionId });
     }
 
-    // Actualizar una publicacion segun ID
+    //Actualizar una publicacion por ID
     async update(publicacionId, updatedFields) {
         return await this.model.findOneAndUpdate(
             { _id: publicacionId },
@@ -44,7 +44,7 @@ class PublicacionDaoMongo {
         );
     }
 
-    // Eliminar una publicacion segun ID
+    //Eliminar una publicacion por ID
     async delete(publicacionId) {
         return await this.model.findByIdAndDelete({_id:publicacionId});
     }

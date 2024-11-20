@@ -6,15 +6,14 @@ const PublicacionController = require('../../controllers/publicacion.controller'
 
 const publicacionController = new PublicacionController()
 
-//Crear publicacion
-publicacionRouter.post('/usuario/:uid', publicacionController.createPublicacion);
-publicacionRouter.post('/inmobiliaria/:iid', publicacionController.createPublicacion);
-publicacionRouter.get('/usuario/:uid', publicacionController.getPublicacionesByUserId);
+
+publicacionRouter.post('/cuenta/:cid', publicacionController.createPublicacion);
+publicacionRouter.get('/cuenta/:cid', publicacionController.getPublicacionesByUserId);
 publicacionRouter.get('/', publicacionController.getPublicaciones);
 publicacionRouter.get('/:pid', publicacionController.getPublicacionById);
 publicacionRouter.put('/:pid', publicacionController.updatePublicacion);
-publicacionRouter.delete('/:pid/usuarios/:uid', publicacionController.deletePublicacion);
-publicacionRouter.delete('/:pid/inmobiliarias/:iid', publicacionController.deletePublicacion);
+publicacionRouter.delete('/:pid/cuentass/:cid', publicacionController.deletePublicacion);
+
 
 
 module.exports = publicacionRouter;

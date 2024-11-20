@@ -1,13 +1,12 @@
-const { publicacionService, usuarioService, inmobiliariaService } = require('../repositories/services');
+const { publicacionService, cuentaService } = require('../repositories/services');
 
 class PublicacionController {
     constructor() {
         this.publicacionService = publicacionService;
-        this.usuarioService = usuarioService;
-        this.inmobiliariaService = inmobiliariaService;
+        this.cuentaService = cuentaService;
     }
 
-    // Obtener todas las Publicaciones
+    //Obtener todas las Publicaciones
     getPublicaciones = async (req, res) => {
         try {
             const publicaciones = await this.publicacionService.getPublicaciones();
@@ -18,7 +17,7 @@ class PublicacionController {
         }
     };
 
-    // Obtener Publicaciones con limites
+    //Obtener Publicaciones con limites
     getPublicacionesLimited = async (req, res) => {
         const { filter, options } = req.body; 
         try {
@@ -30,9 +29,9 @@ class PublicacionController {
         }
     };
 
-    // Obtener una publicacion segun un filtro
+    //Obtener una publicacion segun un filtro
     getPublicacionBy = async (req, res) => {
-        const filter = req.body; // req.params o req.query segun necesidad
+        const filter = req.body; 
         try {
             const publicacion = await this.publicacionService.getPublicacionBy(filter);
             if (publicacion) {
@@ -46,11 +45,11 @@ class PublicacionController {
         }
     };
 
-    // Obtener una publicaciones por ID
+    //Obtener una publicaciones por ID
     getPublicacionesByUserId = async (req, res) => {
-        const { uid } = req.params;
+        const { cid } = req.params;
         try {
-            const publicaciones = await this.publicacionService.getPublicacionesByUserId(uid); // Nota el cambio aquí para obtener todas las publicaciones
+            const publicaciones = await this.publicacionService.getPublicacionesByUserId(cid); // Nota el cambio aquí para obtener todas las publicaciones
             if (publicaciones && publicaciones.length > 0) {
                 res.status(200).json(publicaciones);
             } else {
@@ -63,7 +62,7 @@ class PublicacionController {
     };
     
 
-    // Obtener una Publicacion por ID
+    //Obtener una Publicacion por ID
     getPublicacionById = async (req, res) => {
         const { pid } = req.params;
         try {
@@ -79,7 +78,7 @@ class PublicacionController {
         }
     };
 
-    // Crear una nueva propiedad
+    //Crear una nueva Publicacion
     createPublicacion = async (req, res) => {
         try {
             const {
@@ -100,22 +99,33 @@ class PublicacionController {
                 url,
             } = req.body;
     
-            const { uid, iid } = req.params;
-
-            let propietario;
-            let propietarioTipo;
+            const { cid } = req.params;
     
-            if (uid) {
-                propietario = uid;
-                propietarioTipo = 'Usuarios';
-            } else if (iid) {
-                propietario = iid;
-                propietarioTipo = 'Inmobiliarias';
+            if (!cid) {
+                return res.status(400).json({ message: 'El ID de la cuenta (cid) es requerido' });
             }
     
-            // Crear el objeto de propiedad
+        
+            const cuenta = await this.cuentaService.getCuentaBy({_id: cid});
+    
+            if (!cuenta) {
+                return res.status(404).json({ message: 'Cuenta no encontrada' });
+            }
+    
+            let propietarioTipo;
+    
+   
+            if (cuenta.tipo === 'Usuario') {
+                propietarioTipo = 'Usuarios';
+            } else if (cuenta.tipo === 'Inmobiliaria') {
+                propietarioTipo = 'Inmobiliarias';
+            } else {
+                return res.status(400).json({ message: 'Tipo de cuenta no válido para publicaciones' });
+            }
+    
+
             const nuevaPublicacion = {
-                propietario,
+                propietario: cuenta._id, 
                 propietarioTipo,
                 tipo,
                 id,
@@ -132,27 +142,24 @@ class PublicacionController {
                 alquiler,
                 fotos,
                 url,
-            }; 
+            };
     
-            // Crear la publicacion en la base de datos
+
             const publicacionCreada = await this.publicacionService.createPublicacion(nuevaPublicacion);
     
-            // Agregar el ID de la publicacion creada al usuario o inmobiliaria
-            if (uid) {
-                await this.usuarioService.updateUsuario(uid, { $push: { publicaciones: publicacionCreada._id } });
-            } else if (iid) {
-                await this.inmobiliariaService.updateInmobiliaria(iid, { $push: { publicaciones: propiedadCreada._id } });
-            }
+
+            await this.cuentaService.updateCuenta(cuenta._id, { $push: { publicaciones: publicacionCreada._id } });
     
-            // Enviar respuesta
+      
             res.status(201).json(publicacionCreada);
         } catch (error) {
-            console.error('Error al crear publicacion:', error);
-            res.status(500).json({ message: 'Error al crear publicacion' });
+            console.error('Error al crear publicación:', error);
+            res.status(500).json({ message: 'Error al crear publicación' });
         }
     };
     
-    // Actualizar una publicacion segun ID
+    
+    //Actualizar una publicacion por ID
     updatePublicacion = async (req, res) => {
         const { pid } = req.params;
         const updatedFields = req.body;
@@ -169,27 +176,25 @@ class PublicacionController {
         }
     };
 
-    // Eliminar una publicacion segun ID
+    //Eliminar una publicacion por ID
     deletePublicacion = async (req, res) => {
-        const { pid, uid, iid } = req.params; // Obtener el ID de la publicacion y del usuario o inmobiliaria
+        const { pid, cid } = req.params;
         try {
-            // Primero, obtener la publicacion que se va a eliminar
+  
             const publicacionEliminada = await this.publicacionService.getPublicacionById(pid);
             if (!publicacionEliminada) {
                 return res.status(404).json({ message: 'publicacion no encontrada' });
             }
     
-            // Eliminar la publicacion de la base de datos
+
             await this.publicacionService.deletePublicacion(pid);
     
-            // Eliminar la publicacion del array de publicaciones en el usuario o inmobiliaria
-            if (uid) {
-                await this.usuarioService.updateUsuario(uid, { $pull: { publicaciones: publicacionEliminada._id } });
-            } else if (iid) {
-                await this.inmobiliariaService.updateInmobiliaria(iid, { $pull: { publicaciones: publicacionEliminada._id } });
-            }
+   
+            if (cid) {
+                await this.usuarioService.updateUsuario(cid, { $pull: { publicaciones: publicacionEliminada._id } });
+            } 
     
-            // Enviar respuesta
+
             res.status(204).send();
         } catch (error) {
             console.error('Error al eliminar publicacion:', error);

@@ -1,188 +1,188 @@
-//const mongoose = require('mongoose');
 const { Schema, model, Types } = require('mongoose')
 
-const PublicacionCollection ='Publicaciones';
+const PublicacionCollection = 'Publicaciones';
 
 // Sub-Esquemas
 const InmobiliariaSchema = Schema({
-    nombre: { type: String },
-    codigo: { type: String },
-    email: { type: String },
-    direccion: { type: String },
-    telefono: { type: String },
-    celular: { type: String },
-    sucursal: { type: Number },//o string
-    logo: { type: String }
+  nombre: { type: String },
+  codigo: { type: String },
+  email: { type: String },
+  direccion: { type: String },
+  telefono: { type: String },
+  celular: { type: String },
+  sucursal: { type: Number },//o string
+  logo: { type: String }
 });
 
 
 const BrokerSchema = Schema({
-    id: { type: Number, default: 0 }, // o string
-    nombre: { type: String },
-    telefono: { type: String },
-    email: { type: String },
-    foto: { type: String }
+  id: { type: Number, default: 0 }, // o string
+  nombre: { type: String },
+  telefono: { type: String },
+  email: { type: String },
+  foto: { type: String }
 });
 
 
 const UbicacionSchema = Schema({
-    departamento: { type: String },
-    ciudad: { type: String },
-    barrio: { type: String },
-    distanciamarmetros: { type: Number },
-    frentealmar: { type: String },
-    direccion: { type: String },
-    lat: { type: Number },
-    lon: { type: Number }
+  departamento: { type: String },
+  ciudad: { type: String },
+  barrio: { type: String },
+  distanciamarmetros: { type: Number },
+  frentealmar: { type: String },
+  direccion: { type: String },
+  lat: { type: Number },
+  lon: { type: Number }
 });
 
 
 const CaracteristicasSchema = new Schema({
-    // Comunes entre los diferentes esquemas
-    vista: { type: String },
-    distanciamarmetros: { type: Number },
-    frentealmar: { type: String },
-    tenencia: { type: String },
-    monedacontribucion: { type: String },
-    contribucioninmobiliaria: { type: Number },
-    monedaprimaria: { type: String },
-    impuestoprimaria: { type: Number },
-    youtube: { type: String },
-    matterport: { type: String },
-  
-    // Terreno específico
-    superficie: { type: String },
-    frente: { type: String },
-    fondo: { type: String },
-    lateral: { type: String },
-    esquina: { type: String },
-    arbolado: { type: String },
-    divisible: { type: String },
-    sobreruta: { type: String },
-    luz: { type: String },
-    agua: { type: String },
-    saneamiento: { type: String },
-    formaterreno: { type: String },
-    accesocampo: { type: String },
-    fot: { type: String },
-    subzona: { type: String },
-    aptoph: { type: String },
-    supeficieedificable: { type: String },
-    cantidadpisos: { type: String },
-    alambrado: { type: String },
-    alto: { type: String },
-    monedaprimaria: { type: String },
-    impuestoprimaria: { type: String },
-  
-    // Apartamento específico
-    parrillero: { type: String },
-    playroom: { type: String },
-    mucamas: { type: String },
-    servicioplaya: { type: String },
-    tipoedificio: { type: String },
-    asensores: { type: Number },
-    piscina: { type: String },
-    estacionamientovisitas: { type: String },
-    sauna: { type: String },
-    gimnasio: { type: String },
-    canchas: { type: String },
-    vigilancia: { type: String },
-    numeropiso: { type: Number },
-    aptosxpiso: { type: Number },
-    totaldormitorios: { type: Number },
-    mediodormitorio: { type: Number },
-    banos: { type: Number },
-    suites: { type: Number },
-    toilettes: { type: Number },
-    cocina: { type: String },
-    living: { type: String },
-    comedor: { type: String },
-    livingcomedor: { type: String },
-    capacidadpersonas: { type: Number },
-    cantidadcamas: { type: Number },
-    caracteristicas: { type: String },
-    equipamiento: { type: String },
-    comodidades: { type: String },
-    amenities: { type: String },
-    frecuenciacontribucion: { type: Number },
-    frecuenciaprimaria: { type: Number },
-    gastoscomunes: { type: Number },
-    monedagastos: { type: String },
-    frecuenciagastos: { type: String },
-    antiguedad: { type: Number },
-    dependenciaservicio: { type: String },
-    banoservicio: { type: String },
-    estufalena: { type: String },
-    cochera: { type: String },
-    garage: { type: String },
-    estacionamiento: { type: String },
-    estado: { type: String },
-    calefaccion: { type: String },
-    superficietotal: { type: Number },
-    superficiepropia: { type: Number },
-    superficiecubierta: { type: Number },
-    superficiesemicubierta: { type: Number },
-    superficiebalcon: { type: Number },
-    baulera: { type: String },
-    lavadero: { type: String },
-    EsPH: { type: String },
-    muebles: { type: String },
-    amoblado: { type: String },
-    amovred: { type: String },
-    terrazabalcon: { type: String },
-    comedordiario: { type: String },
-    orientacion: { type: String },
-    disposicion: { type: String },
-    idedificio: { type: Number },
-    fondoreserva: { type: Number },
-    monedafondo: { type: String },
-    vigenciafondo: { type: Number },
-  
-    // Casa específico
-    tipocasa: { type: String },
-    superficieterreno: { type: Number },
-    superficieedificado: { type: Number },
-    cantidadplantas: { type: Number },
-    paredes: { type: String },
-    pisos: { type: String },
-    techo: { type: String },
-    fechaconstruccion: { type: Number },
-    alarma: { type: String },
-  
-    // Chacra específico
-    zonas: { type: String },
-    forestacion: { type: String },
-    aguadas: { type: String },
-    instalaciones: { type: String },
-    galpones: { type: String },
-    casapersonal: { type: String },
-    cursoagua: { type: String },
-    tajamar: { type: String },
-    riego: { type: String },
-    invernaculos: { type: String },
-    alambrados: { type: String },
-    canada: { type: String },
-    arroyo: { type: String },
-    costario: { type: String },
-    pozoagua: { type: String },
-    monte: { type: String },
-    embarcadero: { type: String },
-    potreros: { type: String },
-    camaras: { type: String },
-    preciohectareas: { type: Number },
-    enventa: { type: Number },
-    enalquiler: { type: Number },
-  
-    // Local específico
-    fechamodificado: { type: Date },
-    metrosentrepiso: { type: Number },
-    metrossubsuelo: { type: Number },
-    ubicacion: { type: String },
-    idealpara: { type: String },
-    tipo: { type: Number },
-  });
-  
-  
+  //Comunes entre los diferentes esquemas
+  vista: { type: String },
+  distanciamarmetros: { type: Number },
+  frentealmar: { type: String },
+  tenencia: { type: String },
+  monedacontribucion: { type: String },
+  contribucioninmobiliaria: { type: Number },
+  monedaprimaria: { type: String },
+  impuestoprimaria: { type: Number },
+  youtube: { type: String },
+  matterport: { type: String },
+
+  //Terreno
+  superficie: { type: String },
+  frente: { type: String },
+  fondo: { type: String },
+  lateral: { type: String },
+  esquina: { type: String },
+  arbolado: { type: String },
+  divisible: { type: String },
+  sobreruta: { type: String },
+  luz: { type: String },
+  agua: { type: String },
+  saneamiento: { type: String },
+  formaterreno: { type: String },
+  accesocampo: { type: String },
+  fot: { type: String },
+  subzona: { type: String },
+  aptoph: { type: String },
+  supeficieedificable: { type: String },
+  cantidadpisos: { type: String },
+  alambrado: { type: String },
+  alto: { type: String },
+  monedaprimaria: { type: String },
+  impuestoprimaria: { type: String },
+
+  //Apartamento
+  parrillero: { type: String },
+  playroom: { type: String },
+  mucamas: { type: String },
+  servicioplaya: { type: String },
+  tipoedificio: { type: String },
+  asensores: { type: Number },
+  piscina: { type: String },
+  estacionamientovisitas: { type: String },
+  sauna: { type: String },
+  gimnasio: { type: String },
+  canchas: { type: String },
+  vigilancia: { type: String },
+  numeropiso: { type: Number },
+  aptosxpiso: { type: Number },
+  totaldormitorios: { type: Number },
+  mediodormitorio: { type: Number },
+  banos: { type: Number },
+  suites: { type: Number },
+  toilettes: { type: Number },
+  cocina: { type: String },
+  living: { type: String },
+  comedor: { type: String },
+  livingcomedor: { type: String },
+  capacidadpersonas: { type: Number },
+  cantidadcamas: { type: Number },
+  caracteristicas: { type: String },
+  equipamiento: { type: String },
+  comodidades: { type: String },
+  amenities: { type: String },
+  frecuenciacontribucion: { type: Number },
+  frecuenciaprimaria: { type: Number },
+  gastoscomunes: { type: Number },
+  monedagastos: { type: String },
+  frecuenciagastos: { type: String },
+  antiguedad: { type: Number },
+  dependenciaservicio: { type: String },
+  banoservicio: { type: String },
+  estufalena: { type: String },
+  cochera: { type: String },
+  garage: { type: String },
+  estacionamiento: { type: String },
+  estado: { type: String },
+  calefaccion: { type: String },
+  superficietotal: { type: Number },
+  superficiepropia: { type: Number },
+  superficiecubierta: { type: Number },
+  superficiesemicubierta: { type: Number },
+  superficiebalcon: { type: Number },
+  baulera: { type: String },
+  lavadero: { type: String },
+  EsPH: { type: String },
+  muebles: { type: String },
+  amoblado: { type: String },
+  amovred: { type: String },
+  terrazabalcon: { type: String },
+  comedordiario: { type: String },
+  orientacion: { type: String },
+  disposicion: { type: String },
+  idedificio: { type: Number },
+  fondoreserva: { type: Number },
+  monedafondo: { type: String },
+  vigenciafondo: { type: Number },
+
+  //Casa
+  tipocasa: { type: String },
+  superficieterreno: { type: Number },
+  superficieedificado: { type: Number },
+  cantidadplantas: { type: Number },
+  paredes: { type: String },
+  pisos: { type: String },
+  techo: { type: String },
+  fechaconstruccion: { type: Number },
+  alarma: { type: String },
+
+  //Chacra 
+  zonas: { type: String },
+  forestacion: { type: String },
+  aguadas: { type: String },
+  instalaciones: { type: String },
+  galpones: { type: String },
+  casapersonal: { type: String },
+  cursoagua: { type: String },
+  tajamar: { type: String },
+  riego: { type: String },
+  invernaculos: { type: String },
+  alambrados: { type: String },
+  canada: { type: String },
+  arroyo: { type: String },
+  costario: { type: String },
+  pozoagua: { type: String },
+  monte: { type: String },
+  embarcadero: { type: String },
+  potreros: { type: String },
+  camaras: { type: String },
+  preciohectareas: { type: Number },
+  enventa: { type: Number },
+  enalquiler: { type: Number },
+
+  //Local 
+  fechamodificado: { type: Date },
+  metrosentrepiso: { type: Number },
+  metrossubsuelo: { type: Number },
+  ubicacion: { type: String },
+  idealpara: { type: String },
+  tipo: { type: Number },
+});
+
+
+//SUBSCHEMAS VIEJOS, SE QUEDAN POR LAS DUDAS PARA TENER LOS DATOS
 
 /*const TerrenoSchema = new Schema({
     vista: { type: String },
@@ -425,95 +425,103 @@ const CaracteristicasSchema = new Schema({
     youtube: { type: String },
     matterport: { type: String }
   });*/
-  
+
 
 const VentaSchema = Schema({
-    precio: { type: Number },
-    mda: { type: String },
-    fechavigencia: { type: Date },
-    permuta: { type: String },
-    oferta: { type: String },
-    financia: { type: String },
-    renta: { type: Number },
-    porcentajerenta: { type: Number },
-    saldobanco: { type: Number }
+  precio: { type: Number },
+  mda: { type: String },
+  fechavigencia: { type: Date },
+  permuta: { type: String },
+  oferta: { type: String },
+  financia: { type: String },
+  renta: { type: Number },
+  porcentajerenta: { type: Number },
+  saldobanco: { type: Number }
 });
 
 
 const AlquilerSchema = Schema({
-    VigenciaAlquiler: { type: Date },
-    PrecioPubliacionAlquiler: { type: Number },
-    Enero: { type: Number },
-    EneroQuincena1: { type: Number },
-    EneroQuincena2: { type: Number },
-    Febrero: { type: Number },
-    FebreroQuincena1: { type: Number },
-    FebreroQuincena2: { type: Number },
-    Reveion: { type: Number },
-    Carnaval: { type: Number },
-    SemanaSanta: { type: Number },
-    AnualPesos: { type: Number },
-    InvernalPesos: { type: Number },
-    AnualDolares: { type: Number },
-    PeriodoPrecioAlqAnual: { type: String },
-    AnualTestigo: { type: Boolean }, // o string o number
-    CotizacionDolar: { type: Number },
-    InvernalDolares: { type: Number },
-    Diciembre: { type: Number },
-    DiciembreQuincena1: { type: Number },
-    DiciembreQuincena2: { type: Number },
-    Marzo: { type: Number },
-    MarzoQuincena1: { type: Number },
-    MarzoQuincena2: { type: Number },
-    Temporada: { type: Boolean },
-    AceptaMascota: { type: Boolean },
-    AceptaFumador: { type: Boolean },
-    AceptaNinos: { type: Boolean },
-    GDeposito: { type: Boolean },
-    GPropiedad: { type: Boolean },
-    GAnda: { type: Boolean },
-    GPorto: { type: Boolean },
-    GCGN: { type: Boolean },
-    GMVOTMA: { type: Boolean },
-    GSura: { type: Boolean },
-    GLUC: { type: Boolean },
-    GCIncluidos: { type: Boolean }
+  VigenciaAlquiler: { type: Date },
+  PrecioPubliacionAlquiler: { type: Number },
+  Enero: { type: Number },
+  EneroQuincena1: { type: Number },
+  EneroQuincena2: { type: Number },
+  Febrero: { type: Number },
+  FebreroQuincena1: { type: Number },
+  FebreroQuincena2: { type: Number },
+  Reveion: { type: Number },
+  Carnaval: { type: Number },
+  SemanaSanta: { type: Number },
+  AnualPesos: { type: Number },
+  InvernalPesos: { type: Number },
+  AnualDolares: { type: Number },
+  PeriodoPrecioAlqAnual: { type: String },
+  AnualTestigo: { type: Boolean }, // o string o number
+  CotizacionDolar: { type: Number },
+  InvernalDolares: { type: Number },
+  Diciembre: { type: Number },
+  DiciembreQuincena1: { type: Number },
+  DiciembreQuincena2: { type: Number },
+  Marzo: { type: Number },
+  MarzoQuincena1: { type: Number },
+  MarzoQuincena2: { type: Number },
+  Temporada: { type: Boolean },
+  AceptaMascota: { type: Boolean },
+  AceptaFumador: { type: Boolean },
+  AceptaNinos: { type: Boolean },
+  GDeposito: { type: Boolean },
+  GPropiedad: { type: Boolean },
+  GAnda: { type: Boolean },
+  GPorto: { type: Boolean },
+  GCGN: { type: Boolean },
+  GMVOTMA: { type: Boolean },
+  GSura: { type: Boolean },
+  GLUC: { type: Boolean },
+  GCIncluidos: { type: Boolean }
 });
 
 
 const FotoSchema = Schema({
-    url: { type: String },
-    descripcion: { type: String }
+  url: { type: String },
+  descripcion: { type: String }
 });
 
-// Esquema principal
+
 const PublicacionSchema = Schema({
-    propietario: {
-        type: Types.ObjectId,
-        refPath: 'propietarioTipo'  
-    },
-    propietarioTipo: {
-        type: String,
-        enum: ['Usuarios', 'Inmobiliarias'],
-        required: false
-    },
-    tipo: { type: String, required: true },
-    id: { type: String, required: true, unique: true },
-    Inmobiliaria: InmobiliariaSchema,
-    Broker: BrokerSchema,
-    enVenta: { type: Boolean, default: false },
-    enAlquiler: { type: Boolean, default: false },
-    titulo: { type: String },
-    descripcion: { type: String },
-    Ubicacion: UbicacionSchema,
-    Caracteristicas: CaracteristicasSchema,
-    destacada: { type: Boolean, default: false },
-    venta: VentaSchema,
-    alquiler: AlquilerSchema,
-    fotos: [FotoSchema],
-    url: { type: String }
+  propietario: {
+    type: Schema.Types.ObjectId,
+    ref: 'Cuentas', 
+  },
+  propietarioTipo: {
+    type: String,
+    enum: ['Usuarios', 'Inmobiliarias'],
+    required: false
+  },
+  tipo: { type: String, required: true },
+  id: { type: String, required: true, unique: true },
+  Inmobiliaria: InmobiliariaSchema,
+  Broker: BrokerSchema,
+  enVenta: { type: Boolean, default: false },
+  enAlquiler: { type: Boolean, default: false },
+  titulo: { type: String },
+  descripcion: { type: String },
+  Ubicacion: UbicacionSchema,
+  Caracteristicas: CaracteristicasSchema,
+  destacada: { type: Boolean, default: false },
+  venta: VentaSchema,
+  alquiler: AlquilerSchema,
+  fotos: [FotoSchema],
+  url: { type: String }
 });
 
+// Middleware para poblar el propietario según el propietarioTipo
+/*PublicacionSchema.pre('find', function() {
+  this.populate({ path: 'propietario', select: 'nombre email telefono' });
+});*/
+
+PublicacionSchema.pre('findOne', function () {
+  this.populate({ path: 'propietario', select: 'nombre email telefono tipo usuario inmobiliaria' });
+});
 
 const publicacionModel = model(PublicacionCollection, PublicacionSchema);
-module.exports = {publicacionModel}
+module.exports = { publicacionModel }
