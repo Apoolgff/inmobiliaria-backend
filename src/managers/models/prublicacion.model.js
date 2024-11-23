@@ -477,7 +477,7 @@ const AlquilerSchema = Schema({
   GMVOTMA: { type: Boolean },
   GSura: { type: Boolean },
   GLUC: { type: Boolean },
-  GCIncluidos: { type: Boolean }
+  GCIncluidos: { type: Boolean }     
 });
 
 
@@ -486,7 +486,7 @@ const FotoSchema = Schema({
   descripcion: { type: String }
 });
 
-
+//habria que agregar un tipoPublicacion : estandar y premium
 const PublicacionSchema = Schema({
   propietario: {
     type: Schema.Types.ObjectId,
