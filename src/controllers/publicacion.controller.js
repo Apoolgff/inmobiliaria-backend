@@ -1,4 +1,5 @@
 const { publicacionService, cuentaService } = require('../repositories/services');
+const { unflattenObject } = require('../utils/unFlattenObjects');
 
 class PublicacionController {
     constructor() {
@@ -81,6 +82,10 @@ class PublicacionController {
     //Crear una nueva Publicacion
     createPublicacion = async (req, res) => {
         try {
+            // Desanidar el cuerpo de la solicitud
+            const data = unflattenObject(req.body);
+    
+            // Extraer datos desanidados
             const {
                 tipo,
                 id,
@@ -90,74 +95,91 @@ class PublicacionController {
                 enAlquiler,
                 titulo,
                 descripcion,
-                Ubicacion,
-                Caracteristicas,
+                Ubicacion, // Ya como objeto
+                Caracteristicas, // Ya como objeto
                 destacada,
-                venta,
-                alquiler,
-                fotos,
+                venta, // Ya como objeto
+                alquiler, // Ya como objeto
                 url,
-            } = req.body;
+            } = data;
     
             const { cid } = req.params;
     
+            // Validar la cuenta
             if (!cid) {
                 return res.status(400).json({ message: 'El ID de la cuenta (cid) es requerido' });
             }
     
-        
-            const cuenta = await this.cuentaService.getCuentaBy({_id: cid});
-    
+            const cuenta = await this.cuentaService.getCuentaBy({ _id: cid });
             if (!cuenta) {
                 return res.status(404).json({ message: 'Cuenta no encontrada' });
             }
     
-            let propietarioTipo;
+            // Determinar el tipo de propietario
+            const propietarioTipo =
+                cuenta.tipo === 'Usuario'
+                    ? 'Usuarios'
+                    : cuenta.tipo === 'Inmobiliaria'
+                    ? 'Inmobiliarias'
+                    : null;
     
-   
-            if (cuenta.tipo === 'Usuario') {
-                propietarioTipo = 'Usuarios';
-            } else if (cuenta.tipo === 'Inmobiliaria') {
-                propietarioTipo = 'Inmobiliarias';
-            } else {
+            if (!propietarioTipo) {
                 return res.status(400).json({ message: 'Tipo de cuenta no válido para publicaciones' });
             }
     
-
+            // Validar campos booleanos
+            const esEnVenta = enVenta === 'true' || enVenta === true;
+            const esEnAlquiler = enAlquiler === 'true' || enAlquiler === true;
+            const esDestacada = destacada === 'true' || destacada === true;
+    
+            // Validar fotos
+            if (!req.files || req.files.length === 0) {
+                return res.status(400).json({ message: 'Se requieren imágenes para la publicación' });
+            }
+    
+            // Procesar imágenes subidas
+            const fotos = req.files.map((file, index) => ({
+                url: file.path, // Usar 'path' en lugar de 'secure_url'
+                descripcion: req.body.fotoDescripcion ? req.body.fotoDescripcion[index] || '' : '', // Descripción de la foto
+            }));
+            
+    
+            // Crear objeto para la publicación
             const nuevaPublicacion = {
-                propietario: cuenta._id, 
+                propietario: cuenta._id,
                 propietarioTipo,
                 tipo,
                 id,
                 Inmobiliaria,
                 Broker,
-                enVenta: enVenta || false,
-                enAlquiler: enAlquiler || false,
+                enVenta: esEnVenta,
+                enAlquiler: esEnAlquiler,
                 titulo,
                 descripcion,
-                Ubicacion,
-                Caracteristicas,
-                destacada: destacada || false,
-                venta,
-                alquiler,
-                fotos,
+                Ubicacion, // Objeto completo
+                Caracteristicas, // Objeto completo
+                destacada: esDestacada,
+                venta, // Objeto completo
+                alquiler, // Objeto completo
+                fotos, // Lista de fotos procesadas
                 url,
             };
     
-
+            // Guardar la publicación en la base de datos
             const publicacionCreada = await this.publicacionService.createPublicacion(nuevaPublicacion);
     
-
+            // Actualizar la cuenta con la referencia a la nueva publicación
             await this.cuentaService.updateCuenta(cuenta._id, { $push: { publicaciones: publicacionCreada._id } });
     
-      
+            // Responder con la publicación creada
             res.status(201).json(publicacionCreada);
         } catch (error) {
             console.error('Error al crear publicación:', error);
-            res.status(500).json({ message: 'Error al crear publicación' });
+            res.status(500).json({ message: 'Error al crear publicación', error: error.message });
         }
     };
     
+
     
     //Actualizar una publicacion por ID
     updatePublicacion = async (req, res) => {
