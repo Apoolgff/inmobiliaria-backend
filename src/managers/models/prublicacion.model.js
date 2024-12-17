@@ -1,5 +1,5 @@
 const { Schema, model, Types } = require('mongoose');
-
+const { removeNull } = require('../../utils/removeNull');
 const PublicacionCollection = 'Publicaciones';
 
 // Sub-Esquemas
@@ -265,6 +265,13 @@ const PublicacionSchema = Schema({
 
 PublicacionSchema.pre('findOne', function () {
   this.populate({ path: 'propietario', select: 'nombre email telefono tipo usuario inmobiliaria' });
+});
+
+PublicacionSchema.pre('save', function (next) {
+  if (this._doc) {
+    this._doc = removeNull(this._doc);
+  }
+  next();
 });
 
 const publicacionModel = model(PublicacionCollection, PublicacionSchema);
