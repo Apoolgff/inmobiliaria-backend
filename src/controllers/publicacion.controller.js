@@ -82,10 +82,10 @@ class PublicacionController {
     //Crear una nueva Publicacion
     createPublicacion = async (req, res) => {
         try {
-            // Desanidar el cuerpo de la solicitud
+            //Desanida el cuerpo de la solicitud
             const data = unflattenObject(req.body);
     
-            // Extraer datos desanidados
+            //Extrae datos desanidados
             const {
                 tipo,
                 id,
@@ -95,11 +95,11 @@ class PublicacionController {
                 enAlquiler,
                 titulo,
                 descripcion,
-                Ubicacion, // Ya como objeto
-                Caracteristicas, // Ya como objeto
+                Ubicacion,
+                Caracteristicas, 
                 destacada,
-                venta, // Ya como objeto
-                alquiler, // Ya como objeto
+                venta, 
+                alquiler, 
                 url,
             } = data;
     
@@ -115,7 +115,7 @@ class PublicacionController {
                 return res.status(404).json({ message: 'Cuenta no encontrada' });
             }
     
-            // Determinar el tipo de propietario
+            //Determina el tipo de propietario
             const propietarioTipo =
                 cuenta.tipo === 'Usuario'
                     ? 'Usuarios'
@@ -139,8 +139,8 @@ class PublicacionController {
     
             // Procesar imágenes subidas
             const fotos = req.files.map((file, index) => ({
-                url: file.path, // Usar 'path' en lugar de 'secure_url'
-                descripcion: req.body.fotoDescripcion ? req.body.fotoDescripcion[index] || '' : '', // Descripción de la foto
+                url: file.path, 
+                descripcion: req.body.fotoDescripcion ? req.body.fotoDescripcion[index] || '' : '',
             }));
             
     
@@ -156,12 +156,12 @@ class PublicacionController {
                 enAlquiler: esEnAlquiler,
                 titulo,
                 descripcion,
-                Ubicacion, // Objeto completo
-                Caracteristicas, // Objeto completo
+                Ubicacion, 
+                Caracteristicas, 
                 destacada: esDestacada,
-                venta, // Objeto completo
-                alquiler, // Objeto completo
-                fotos, // Lista de fotos procesadas
+                venta,
+                alquiler, 
+                fotos, 
                 url,
             };
     

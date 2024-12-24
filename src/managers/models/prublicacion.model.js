@@ -2,6 +2,8 @@ const { Schema, model, Types } = require('mongoose');
 const { removeNull } = require('../../utils/removeNull');
 const PublicacionCollection = 'Publicaciones';
 
+//METI LOS NULL PARA PROBAR ALGO Y ASI LO DEJE PORQUE SI.
+
 // Sub-Esquemas
 const InmobiliariaSchema = Schema({
   nombre: { type: String, default: null },
