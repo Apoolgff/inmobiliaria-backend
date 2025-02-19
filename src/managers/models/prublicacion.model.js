@@ -68,8 +68,7 @@ const CaracteristicasSchema = new Schema({
   cantidadpisos: { type: String, default: null },
   alambrado: { type: String, default: null },
   alto: { type: String, default: null },
-  monedaprimaria: { type: String, default: null },
-  impuestoprimaria: { type: String, default: null },
+
 
   //Apartamento
   parrillero: { type: String, default: null },
