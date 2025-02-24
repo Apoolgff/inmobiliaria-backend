@@ -132,6 +132,14 @@ class PublicacionController {
             const esEnAlquiler = enAlquiler === 'true' || enAlquiler === true;
             const esDestacada = destacada === 'true' || destacada === true;
     
+            // Fecha de expiracion segun destaque
+            let fechaExpiracion = null;
+
+            if (!esDestacada) {
+                fechaExpiracion = new Date();
+                fechaExpiracion.setDate(fechaExpiracion.getDate() + 90);
+            }
+
             // Validar fotos
             if (!req.files || req.files.length === 0) {
                 return res.status(400).json({ message: 'Se requieren imágenes para la publicación' });
@@ -159,6 +167,7 @@ class PublicacionController {
                 Ubicacion, 
                 Caracteristicas, 
                 destacada: esDestacada,
+                fechaExp: fechaExpiracion,
                 venta,
                 alquiler, 
                 fotos, 

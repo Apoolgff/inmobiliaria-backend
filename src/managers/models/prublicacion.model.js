@@ -258,6 +258,7 @@ const PublicacionSchema = Schema({
   Ubicacion: UbicacionSchema,
   Caracteristicas: CaracteristicasSchema,
   destacada: { type: Boolean, default: false },
+  fechaExp: {type: Date, default: null},
   venta: VentaSchema,
   alquiler: AlquilerSchema,
   fotos: [FotoSchema],

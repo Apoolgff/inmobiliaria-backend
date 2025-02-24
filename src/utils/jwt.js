@@ -9,6 +9,7 @@ const generateToken = (user) => {
         userId: user._id,
         email: user.email,
         nombre: user.nombre,
+        tipo: user.tipo
     };
 
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRATION });
